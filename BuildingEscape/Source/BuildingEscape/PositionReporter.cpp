@@ -13,6 +13,8 @@ UPositionReporter::UPositionReporter()
 	bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
 
+
+	
 	// ...
 }
 
@@ -21,7 +23,13 @@ UPositionReporter::UPositionReporter()
 void UPositionReporter::BeginPlay()
 {
 	Super::BeginPlay();
+	
+	FString ObjectName = GetOwner()->GetName();
+	FVector ObjectLocation = GetOwner()->GetActorLocation();
+	
 
+	UE_LOG(LogTemp, Warning, TEXT("Position report reporting for duty on %s at %s"), *ObjectName, *ObjectLocation.ToString());
+	
 	// ...
 	
 }
