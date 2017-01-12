@@ -22,16 +22,8 @@ void UMakeOpenDoor::BeginPlay()
 	Super::BeginPlay();
 
 	// Find Owner
-	AActor* Owner = GetOwner();
+	ActorOwner = GetOwner();
 	ActorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn();
-
-	//Create a Rotator
-
-	FRotator NewRotation = FRotator(0.0f, 0.0f, 0.0f);
-
-	//Set Rotation
-
-	Owner->SetActorRotation(NewRotation);
 }
 
 
@@ -44,24 +36,34 @@ void UMakeOpenDoor::TickComponent( float DeltaTime, ELevelTick TickType, FActorC
 	if (PressurePlate->IsOverlappingActor(ActorThatOpens))
 	{
 		OpenDoor();
+		LastDoorOpenTime = GetWorld()->GetTimeSeconds();
 	}
-	else
+	
+	if (GetWorld()->GetTimeSeconds() - LastDoorOpenTime > DoorCloseDelay)
 	{
 		CloseDoor();
+
 	}
+	
+	
+
+	//check if it's time to close
+
+
+
+
+	
+
+
 }
 
 void UMakeOpenDoor::OpenDoor()
 {
-	AActor* Owner = GetOwner();
-	FRotator NewRotation = FRotator(0.0f, -60.0f, 0.0f);
-	Owner->SetActorRotation(NewRotation);
+	ActorOwner->SetActorRotation(FRotator(0.0f, OpenAngle, 0.0f));
 }
 
 void UMakeOpenDoor::CloseDoor()
 {
-	AActor* Owner = GetOwner();
-	FRotator NewRotation = FRotator(0.0f, 0.0f, 0.0f);
-	Owner->SetActorRotation(NewRotation);
+	ActorOwner->SetActorRotation(FRotator(0.0f, 0.0f, 0.0f));
 }
 
