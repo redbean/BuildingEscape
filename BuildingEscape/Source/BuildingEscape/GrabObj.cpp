@@ -51,7 +51,7 @@ void UGrabObj::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompon
 	//UE_LOG(LogTemp, Warning, TEXT("Location : %s, Position :%s"), 
 	//	*PlayerViewPointLocation.ToString(), 
 	//	*PlayerViewPointRotation.ToString());
-	// raycast out to reach
+	
 	
 	FVector LineTraceEnd = PlayerViewPointLocation + (PlayerViewPointRotation.Vector() * Reach);
 	DrawDebugLine(
@@ -65,8 +65,25 @@ void UGrabObj::TickComponent( float DeltaTime, ELevelTick TickType, FActorCompon
 		10.f
 	);
 	
+
+
+	// setup Query Param
+	FHitResult Hit;
+	FCollisionQueryParams TraceParams(FName(TEXT("")), false, GetOwner());
 	
-	PlayerViewPointRotation.Vector();
+
+	// raycast out to reach
+
+	
+
+	GetWorld()->LineTraceSingleByObjectType(
+		OUT Hit,
+		PlayerViewPointLocation,
+		LineTraceEnd,
+		FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
+		TraceParams	
+	);
+	
 
 
 	//
